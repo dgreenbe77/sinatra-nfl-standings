@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+  <head>
+    <title>Standings</title>
+  </head>
+
+  <body>
+
+    <h1> NFL Leaderboard </h1>
+
+<ul>
+  <% @leaderboard.each do |k,v| %>
+  <li><%= "#{k}:  Wins: #{v[:wins]} - Losses: #{v[:losses]}" %>
+ <% end %>
+</ul>
+
+  </body>
+</html>
