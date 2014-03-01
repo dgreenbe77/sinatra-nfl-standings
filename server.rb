@@ -45,9 +45,18 @@ scoreboard.each do |hash|
   end
 end
 leaderboard.each do |key, value|
-  value[:percent] =  value[:wins]/(value[:wins]+value[:losses]).to_f
+ value[:ranking] =  value[:wins]/(value[:wins]+value[:losses]).to_f
 end
-leaderboard.sort_by { |key,value| value[:percent]}
+leaderboard = leaderboard.sort
+leaderboard.each do |key,value|
+  if value[:losses] == 0
+    value[:ranking] = value[:wins]
+  end
+  if value[:wins] == 0
+    value[:ranking] = -value[:losses]
+  end
+end
+leaderboard = leaderboard.sort_by {|key,value| value[:ranking]}.reverse
 return leaderboard
 end
 
@@ -56,6 +65,5 @@ get '/leaderboard' do
   @leaderboard = leaderboard(scoreboard)
   erb :leader
 end
-
 
 #{"Patriots"=>{:wins=>3, :losses=>0, :percent=>1.0}, "Broncos"=>{:wins=>1, :losses=>1, :percent=>0.5}, "Colts"=>{:wins=>0, :losses=>2, :percent=>0.0}, "Steelers"=>{:wins=>0, :losses=>1, :percent=>0.0}}
