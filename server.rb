@@ -1,8 +1,7 @@
 require 'pry'
 require 'sinatra'
 
-scoreboard =
-[
+scoreboard = [
   {
     home_team: "Patriots",
     away_team: "Broncos",
@@ -30,34 +29,38 @@ scoreboard =
 ]
 
 def leaderboard(scoreboard)
-leaderboard = {}
-scoreboard.each do |hash|
-  leaderboard.store(hash[:home_team], {wins: 0,losses: 0})
-  leaderboard.store(hash[:away_team], {wins: 0,losses: 0})
-end
-scoreboard.each do |hash|
+  leaderboard = {}
+  scoreboard.each do |hash|
+    leaderboard.store(hash[:home_team], {wins: 0,losses: 0})
+    leaderboard.store(hash[:away_team], {wins: 0,losses: 0})
+  end
+
+  scoreboard.each do |hash|
     if hash[:home_score] > hash[:away_score]
       leaderboard[hash[:home_team]][:wins] += 1
       leaderboard[hash[:away_team]][:losses] += 1
     else
       leaderboard[hash[:home_team]][:losses] += 1
       leaderboard[hash[:away_team]][:wins] += 1
+    end
   end
-end
-leaderboard.each do |key, value|
- value[:ranking] =  value[:wins]/(value[:wins]+value[:losses]).to_f
-end
-leaderboard = leaderboard.sort
-leaderboard.each do |key,value|
-  if value[:losses] == 0
-    value[:ranking] = value[:wins]
+
+  leaderboard.each do |key, value|
+    value[:ranking] =  value[:wins]/(value[:wins]+value[:losses]).to_f
   end
-  if value[:wins] == 0
-    value[:ranking] = -value[:losses]
+
+  leaderboard = leaderboard.sort
+  leaderboard.each do |key,value|
+    if value[:losses] == 0
+      value[:ranking] = value[:wins]
+    end
+    if value[:wins] == 0
+      value[:ranking] = -value[:losses]
+    end
   end
-end
-leaderboard = leaderboard.sort_by {|key,value| value[:ranking]}.reverse
-return leaderboard
+
+  leaderboard = leaderboard.sort_by {|key,value| value[:ranking]}.reverse
+  return leaderboard
 end
 
 

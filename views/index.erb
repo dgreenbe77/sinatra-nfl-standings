@@ -6,13 +6,9 @@
   <body>
 
     <h1> NFL Leaderboard </h1>
-
-
-
-  <% @leaderboard.each do |k, v| %>
-<%= "#{k} #{v[:wins]} #{v[:losses]}" %>
-<% end %>
-
+    <% @leaderboard.each do |team_name, win_loss_map| %>
+      <%= "#{team_name} #{win_loss_map[:wins]} #{win_loss_map[:losses]}" %>
+    <% end %>
 
   </body>
 </html>
