@@ -8,8 +8,10 @@
     <h1> NFL Leaderboard </h1>
 
 <ul>
-  <% @leaderboard.each do |k,v| %>
-  <li><%= "#{k}:  Wins: #{v[:wins]} - Losses: #{v[:losses]}" %>
+  <% @leaderboard.each do |team_name,win_loss_map| %>
+    <li>
+      <%= team_name %>:  Wins: <%= win_loss_map[:wins] %> - Losses: <%= win_loss_map[:losses] %>
+    </li>
  <% end %>
 </ul>
 
